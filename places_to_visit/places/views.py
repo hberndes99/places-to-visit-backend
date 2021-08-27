@@ -6,8 +6,11 @@ from .models import WishList, MapAnnotationPoint
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
-from .serializers import WishListSerializer
+from .serializers import MapAnnotationPointSerializer, WishListSerializer
+
+import json
 
 
 # Create your views here.
@@ -15,17 +18,35 @@ def hello(request):
     return HttpResponse('<h1>hello</h1>')
 
 
-
-
-#GET all map points
-# '/'
-
 #GET all wish lists
+#POST new wish list
 # '/wishlists'
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def wishListList(request):
-    wishLists = WishList.objects.all()
-    serializer = WishListSerializer(instance=wishLists, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        wishLists = WishList.objects.all()
+        serializer = WishListSerializer(instance=wishLists, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        serializer = WishListSerializer(data=data, many=False)
+        if serializer.is_valid():
+            print('valid')
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+#/wishLists/mappoints
+@api_view(['POST'])
+def mapAnnotationPoint(request):
+    data = json.loads(request.body)
+    print(data)
+    serializer = MapAnnotationPointSerializer(data=data)
+    if serializer.is_valid():
+ 
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

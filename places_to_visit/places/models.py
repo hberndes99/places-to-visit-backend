@@ -16,8 +16,8 @@ class WishList(models.Model):
 class MapAnnotationPoint(models.Model):
     title = models.CharField(max_length=50)
     subtitle = models.CharField(max_length=50)
-    latitude = models.DecimalField(max_digits=12, decimal_places=9)
-    longitude = models.DecimalField(max_digits=12, decimal_places=9)
+    latitude = models.DecimalField(max_digits=20, decimal_places=17)
+    longitude = models.DecimalField(max_digits=20, decimal_places=17)
     number = models.CharField(max_length=10)
     streetAddress = models.CharField(max_length=50)
     wishList = models.ForeignKey(WishList, on_delete=models.CASCADE, related_name='items')
