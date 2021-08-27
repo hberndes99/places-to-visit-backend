@@ -1,5 +1,14 @@
+
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework import serializers
+from .models import WishList, MapAnnotationPoint
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .serializers import WishListSerializer
+
 
 # Create your views here.
 def hello(request):
@@ -13,18 +22,10 @@ def hello(request):
 
 #GET all wish lists
 # '/wishlists'
+@api_view(['GET'])
+def wishListList(request):
+    wishLists = WishList.objects.all()
+    serializer = WishListSerializer(instance=wishLists, many=True)
+    return Response(serializer.data)
 
-#GET map points for a specified wish list
-# '/wishlists/id/savedplaces'
 
-#POST new wish list
-# '/wishlists'
-
-#POST new map annotation point, related to a specific wish list
-# '/wishlists/id/savedplaces
-
-#DELETE wish list and all related map points
-# '/wishlists/id
-
-#DELETE map point from specific wish list
-# '/wishlists/id/savedplaces/id
