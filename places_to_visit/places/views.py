@@ -38,6 +38,16 @@ def wishListList(request):
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#wishlists/id
+@api_view(['DELETE'])
+def wishListDetail(request, id):
+    try:
+        wishList = WishList.objects.get(pk=id)
+    except:
+        return Response({'message': 'The place does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    wishList.delete()
+    return Response({'message': 'Successfully deleted wish list'}, status=status.HTTP_204_NO_CONTENT)
+
 #/wishLists/mappoints
 @api_view(['POST'])
 def mapAnnotationPoint(request):
@@ -59,3 +69,5 @@ def mapPointDetail(request, id):
         return Response({'message': 'The place does not exist'}, status=status.HTTP_404_NOT_FOUND)
     mapPoint.delete()
     return Response({'message': 'Successfully deleted map point'}, status=status.HTTP_204_NO_CONTENT)
+
+
