@@ -4,5 +4,6 @@ from . import views
 urlpatterns = [
     path('', views.hello, name='hello'),
     path('wishlists/', views.wishListList, name='all wishlists'),
-    path('wishlists/mappoints/', views.mapAnnotationPoint, name='post map point')
+    path('wishlists/mappoints/', views.mapAnnotationPoint, name='post map point'),
+    path('wishlists/mappoints/<int:id>', views.mapPointDetail, name='detail map point')
 ]

@@ -45,8 +45,17 @@ def mapAnnotationPoint(request):
     print(data)
     serializer = MapAnnotationPointSerializer(data=data)
     if serializer.is_valid():
- 
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#/wishlists/mapoints/id
+@api_view(['DELETE'])
+def mapPointDetail(request, id):
+    try: 
+        mapPoint = MapAnnotationPoint.objects.get(pk=id)
+    except: 
+        return Response({'message': 'The place does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    mapPoint.delete()
+    return Response({'message': 'Successfully deleted map point'}, status=status.HTTP_204_NO_CONTENT)
