@@ -29,13 +29,10 @@ def wishListList(request):
         return Response(serializer.data)
     elif request.method == 'POST':
         data = json.loads(request.body)
-        print(data)
         serializer = WishListSerializer(data=data, many=False)
         if serializer.is_valid():
-            print('valid')
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #wishlists/id
@@ -52,12 +49,10 @@ def wishListDetail(request, id):
 @api_view(['POST'])
 def mapAnnotationPoint(request):
     data = json.loads(request.body)
-    print(data)
     serializer = MapAnnotationPointSerializer(data=data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #/wishlists/mapoints/id

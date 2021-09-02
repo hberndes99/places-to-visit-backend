@@ -14,12 +14,12 @@ class WishList(models.Model):
 
 
 class MapAnnotationPoint(models.Model):
-    title = models.CharField(max_length=50)
-    subtitle = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, null=True)
+    subtitle = models.CharField(max_length=50, null=True)
     latitude = models.DecimalField(max_digits=20, decimal_places=17)
     longitude = models.DecimalField(max_digits=20, decimal_places=17)
-    number = models.CharField(max_length=10)
-    streetAddress = models.CharField(max_length=50)
+    number = models.CharField(max_length=10, null=True, blank=True)
+    streetAddress = models.CharField(max_length=50, null=True)
     wishList = models.ForeignKey(WishList, on_delete=models.CASCADE, related_name='items')
 
     def __str__(self):
